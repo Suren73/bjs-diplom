@@ -72,6 +72,18 @@
         "EUR": 0,
         "NTC": 0
       }
+    },
+    {
+      "created_at": "2020-12-20T18:45:43.599Z",
+      "login": "suren@mail.ru",
+      "password": "10011973",
+      "id": 7,
+      "balance": {
+        "RUB": 1801,
+        "USD": 200,
+        "EUR": 100,
+        "NTC": 200
+      }
     }
   ],
   "favorites": {
