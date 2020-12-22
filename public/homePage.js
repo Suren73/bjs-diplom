@@ -1,59 +1,60 @@
 "use strict";
 
 const logoutButton = new LogoutButton();
-logoutButton.action = () => ApiConnector.logout(response => setTimeout(() => {
+logoutButton.action = () => ApiConnector.logout(response => {
 	if (response.success) location.reload();
-}, 2000));
-ApiConnector.current(response => setTimeout(() => {
-	if (response.success) ProfileWidget.showProfile(response.data);
-}, 2000));
+});
+ApiConnector.current(response => {
+	if (response.success) ProfileWidget.showProfile(response.data)
+});
 
 const ratesBoard = new RatesBoard();
 function getCurrencyRates() {
-	ApiConnector.getStocks(response => setTimeout(() => {
+	ApiConnector.getStocks(response => {
 		if (response.success) {
 			ratesBoard.clearTable();
 			ratesBoard.fillTable(response.data);
-		}
-	}, 2000));
+		};
+	});
 }
-setInterval(getCurrencyRates(), 60000);
+getCurrencyRates();
+setInterval(getCurrencyRates, 60000);
 
 const moneyManager = new MoneyManager();
-moneyManager.addMoneyCallback = data => ApiConnector.addMoney(data, response => setTimeout(() => {
+moneyManager.addMoneyCallback = data => ApiConnector.addMoney(data, response => {
 	if (response.success) {
 		ProfileWidget.showProfile(response.data);
 		moneyManager.setMessage(response.success, "Баланс успешно пополнен");
 	} else {
 		moneyManager.setMessage(response.success, response.error);
-	};
-}, 2000));
-moneyManager.conversionMoneyCallback = data => ApiConnector.convertMoney(data, response => setTimeout(() => {
+	}
+});
+moneyManager.conversionMoneyCallback = data => ApiConnector.convertMoney(data, response => {
 	if (response.success) {
 		ProfileWidget.showProfile(response.data);
 		moneyManager.setMessage(response.success, "Конвертация выполнена успешно");
 	} else {
 		moneyManager.setMessage(response.success, response.error);
 	}
-}, 2000));
-moneyManager.sendMoneyCallback = data => ApiConnector.transferMoney(data, response => setTimeout(() => {
+});
+moneyManager.sendMoneyCallback = data => ApiConnector.transferMoney(data, response => {
 	if (response.success) {
 		ProfileWidget.showProfile(response.data);
 		moneyManager.setMessage(response.success, "Перевод денег выполнен успешно");
 	} else {
 		moneyManager.setMessage(response.success, response.error);
 	}
-}, 2000));
+});
 
 const favoritesWidget = new FavoritesWidget();
-ApiConnector.getFavorites(response => setTimeout(() => {
+ApiConnector.getFavorites(response => {
 	if (response.success) {
 		favoritesWidget.clearTable();
 		favoritesWidget.fillTable(response.data);
 		moneyManager.updateUsersList(response.data);
 	}
-}, 2000));
-favoritesWidget.addUserCallback = data => ApiConnector.addUserToFavorites(data, response => setTimeout(() => {
+});
+favoritesWidget.addUserCallback = data => ApiConnector.addUserToFavorites(data, response => {
 	if (response.success) {
 		favoritesWidget.clearTable();
 		favoritesWidget.fillTable(response.data);
@@ -62,8 +63,8 @@ favoritesWidget.addUserCallback = data => ApiConnector.addUserToFavorites(data, 
 	} else {
 		favoritesWidget.setMessage(response.success, response.error);
 	}
-}, 2000));
-favoritesWidget.removeUserCallback = data => ApiConnector.removeUserFromFavorites(data, response => setTimeout(() => {
+});
+favoritesWidget.removeUserCallback = data => ApiConnector.removeUserFromFavorites(data, response => {
 	if (response.success) {
 		favoritesWidget.clearTable();
 		favoritesWidget.fillTable(response.data);
@@ -72,4 +73,4 @@ favoritesWidget.removeUserCallback = data => ApiConnector.removeUserFromFavorite
 	} else {
 		favoritesWidget.setMessage(response.success, response.error);
 	}
-}, 2000));
+});
